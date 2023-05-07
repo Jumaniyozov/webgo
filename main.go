@@ -23,10 +23,12 @@ type User struct {
 }
 
 func main() {
-	PORT := "8001"
+	PORT := "8000"
 	r := chi.NewRouter()
+	fs := http.FileServer(http.Dir("static"))
 	r.Use(middleware.Logger)
 
+	r.Handle("/static/*", http.StripPrefix("/static/", fs))
 	r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "layout-page.gohtml", "home.gohtml"))))
 
 	r.Get("/contact", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "layout-page.gohtml", "contact.gohtml"))))
