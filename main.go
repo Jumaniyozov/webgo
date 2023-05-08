@@ -11,19 +11,8 @@ import (
 	"github.com/jumaniyozov/gdo/views"
 )
 
-type Address struct {
-	Street       string
-	Country      string
-	StreetNumber int
-}
-
-type User struct {
-	Name    string
-	Address Address
-}
-
 func main() {
-	PORT := "8000"
+	PORT := "8001"
 	r := chi.NewRouter()
 	fs := http.FileServer(http.Dir("static"))
 	r.Use(middleware.Logger)
@@ -34,6 +23,11 @@ func main() {
 	r.Get("/contact", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "layout-page.gohtml", "contact.gohtml"))))
 
 	r.Get("/faq", controllers.FAQ(views.Must(views.ParseFS(templates.FS, "layout-page.gohtml", "faq.gohtml"))))
+
+	usersC := controllers.Users{}
+	usersC.Templates.New = views.Must(views.ParseFS(templates.FS, "layout-page.gohtml", "signup.gohtml"))
+	r.Get("/signup", usersC.New)
+	r.Post("/users", usersC.Create)
 
 	fmt.Printf("Server is running on PORT %s...\n", PORT)
 

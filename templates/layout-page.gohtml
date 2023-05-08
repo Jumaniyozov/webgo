@@ -7,9 +7,29 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-    <link rel="stylesheet" type="text/css" href="/static/output.css" />
+    <link rel="stylesheet" type="text/css" href="/static/output.css"/>
 </head>
-<body>
+<body class="min-h-screen bg-gray-100">
+<header class="py-4 px-2 w-full bg-indigo-600 text-white justify-center flex">
+    <nav class="flex gap-16 w-full px-4 items-center">
+        <div class="w-2/12">
+            <h3 class="text-3xl font-serif">Webgo</h3>
+        </div>
+        <div class="w-8/12">
+            <ul class="flex gap-4">
+                <li class="text-lg font-medium"><a href="/">Home</a></li>
+                <li class="text-lg font-medium"><a href="/contact">Contact</a></li>
+                <li class="text-lg font-medium"><a href="/faq">FAQ</a></li>
+            </ul>
+        </div>
+        <div class="w-2/12">
+            <ul class="flex gap-2">
+                <li class="bg-blue-600 p-2 rounded-lg"><a href="/signin">Sign In</a></li>
+                <li class="bg-green-600 p-2 rounded-lg"><a href="/signup">Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
 {{template "page" .}}
 <footer class="mt-32 flex justify-center w-full items-center">
     <p class="text-gray-900 font-semibold text-xl">Copyright @Jumaniyozov 2023</p>
