@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: junglebook
       POSTGRES_DB: webgo
     ports:
-      - 5433:5433
+      - 5433:5432
 
   adminer:
     image: adminer
