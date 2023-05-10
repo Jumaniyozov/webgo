@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/jumaniyozov/gdo/models"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -24,14 +25,29 @@ func main() {
 
 	r.Get("/faq", controllers.FAQ(views.Must(views.ParseFS(templates.FS, "layout-page.gohtml", "faq.gohtml"))))
 
-	usersC := controllers.Users{}
+	cfg := models.DefaultPostgresConfig()
+	db, err := models.Open(cfg)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+	userService := models.UserService{
+		DB: db,
+	}
+
+	usersC := controllers.Users{
+		UserService: &userService,
+	}
+
 	usersC.Templates.New = views.Must(views.ParseFS(templates.FS, "layout-page.gohtml", "signup.gohtml"))
+	usersC.Templates.SignIn = views.Must(views.ParseFS(templates.FS, "layout-page.gohtml", "signin.gohtml"))
 	r.Get("/signup", usersC.New)
+	r.Get("/signin", usersC.SignIn)
 	r.Post("/users", usersC.Create)
 
 	fmt.Printf("Server is running on PORT %s...\n", PORT)
 
-	err := http.ListenAndServe(fmt.Sprintf(":%s", PORT), r)
+	err = http.ListenAndServe(fmt.Sprintf(":%s", PORT), r)
 	if err != nil {
 		panic(err)
 	}

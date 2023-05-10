@@ -2,14 +2,16 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/jumaniyozov/gdo/views"
+	"github.com/jumaniyozov/gdo/models"
 	"net/http"
 )
 
 type Users struct {
 	Templates struct {
-		New views.Template
+		New    Template
+		SignIn Template
 	}
+	UserService *models.UserService
 }
 
 func (u Users) New(w http.ResponseWriter, r *http.Request) {
@@ -21,18 +23,25 @@ func (u Users) New(w http.ResponseWriter, r *http.Request) {
 	u.Templates.New.Execute(w, data)
 }
 
+func (u Users) SignIn(w http.ResponseWriter, r *http.Request) {
+	var data struct {
+		Email string
+	}
+	data.Email = r.FormValue("email")
+
+	u.Templates.SignIn.Execute(w, data)
+}
+
 func (u Users) Create(w http.ResponseWriter, r *http.Request) {
-	err := r.ParseForm()
+	email := r.FormValue("email")
+	password := r.FormValue("password")
+
+	user, err := u.UserService.Create(email, password)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		fmt.Println(err)
+		http.Error(w, "Someting went wrong", http.StatusInternalServerError)
+		return
 	}
 
-	_, err = fmt.Fprintln(w, "Email: ", r.FormValue("email"))
-	if err != nil {
-		fmt.Printf("Error printing into writer %s \n", err)
-	}
-	_, err = fmt.Fprintln(w, "Password: ", r.FormValue("password"))
-	if err != nil {
-		fmt.Printf("Error printing into writer %s \n", err)
-	}
+	fmt.Fprintf(w, "User created: %+v", user)
 }

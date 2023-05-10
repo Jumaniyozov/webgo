@@ -2,6 +2,8 @@ package models
 
 import (
 	"database/sql"
+	"fmt"
+	"golang.org/x/crypto/bcrypt"
 	"strings"
 )
 
@@ -21,10 +23,26 @@ type UserDTO struct {
 }
 
 func (us *UserService) Create(email, password string) (*User, error) {
-	var user User
+	email = strings.ToLower(email)
+	hashedBytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		panic(err)
+	}
+	passwordHash := string(hashedBytes)
 
-	email := strings.ToLower(password)
-	//hashedBytes, err := bcrypt.
+	user := User{
+		Email:        email,
+		PasswordHash: passwordHash,
+	}
+
+	row := us.DB.QueryRow(`
+	INSERT INTO users (email, password_hash)
+	VALUES ($1, $2) RETURNING id`, email, passwordHash)
+
+	err = row.Scan(&user.ID)
+	if err != nil {
+		return nil, fmt.Errorf("create user: %w", err)
+	}
 
 	return &user, nil
 }
