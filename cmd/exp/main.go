@@ -58,7 +58,7 @@ func main() {
 			email TEXT UNIQUE NOT NULL
 		);
 		
-		CREATE TABLE IF NOT EXISTS orders (
+		CREATE TABLE IF NOT EXISTS orders.sql (
 			id SERIAL PRIMARY KEY,
 			user_Id INT NOT NULL,
 			amount INT,

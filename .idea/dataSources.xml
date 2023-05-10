@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="webgo@localhost" uuid="c97a2546-de39-454f-9177-8059ef8c2696">
+    <data-source source="LOCAL" name="webgo@localhost" uuid="f898de2f-b09e-4bab-bbd2-86917d9b88ec">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
