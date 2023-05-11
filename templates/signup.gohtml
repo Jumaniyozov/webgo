@@ -5,6 +5,9 @@
                 <h1 class="text-2xl font-medium">Start sharing your photos today</h1>
             </div>
             <form action="/users" method="post" class="flex flex-col gap-4 text-gray-900">
+                <div class="hidden">
+                    {{csrfField}}
+                </div>
                 <div class="flex flex-col gap-2">
                     <label class="text-base font-medium" for="email">Email Address</label>
                     <input class="text-gray-900 rounded-lg border border-gray-300" name="email" id="email" type="email"

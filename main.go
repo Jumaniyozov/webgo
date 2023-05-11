@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/gorilla/csrf"
 	"github.com/jumaniyozov/gdo/models"
 	"net/http"
 
@@ -44,10 +45,13 @@ func main() {
 	r.Get("/signup", usersC.New)
 	r.Get("/signin", usersC.SignIn)
 	r.Post("/users", usersC.Create)
+	r.Post("/signin", usersC.ProcessSignIn)
 
 	fmt.Printf("Server is running on PORT %s...\n", PORT)
 
-	err = http.ListenAndServe(fmt.Sprintf(":%s", PORT), r)
+	csrfKey := "ghjkghjkghjkghjkghjkghjkghjkghjk"
+	csrfMw := csrf.Protect([]byte(csrfKey), csrf.Secure(false))
+	err = http.ListenAndServe(fmt.Sprintf(":%s", PORT), csrfMw(r))
 	if err != nil {
 		panic(err)
 	}
