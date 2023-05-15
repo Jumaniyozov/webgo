@@ -48,6 +48,7 @@ func main() {
 	r.Get("/users/me", usersC.CurrentUser)
 	r.Post("/users", usersC.Create)
 	r.Post("/signin", usersC.ProcessSignIn)
+	r.Post("/signout", usersC.ProcessSignOut)
 
 	fmt.Printf("Server is running on PORT %s...\n", PORT)
 
