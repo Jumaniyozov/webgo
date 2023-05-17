@@ -23,18 +23,20 @@
             </ul>
         </div>
         <div class="w-2/12">
-
             <ul class="flex gap-2">
-                <li class="p-2 rounded-lg">
-                    <form action="/signout" method="post" class="inline pr-4">
-                        <div class="hidden">
-                            {{csrfField}}
-                        </div>
-                        <button type="submit">Sign out</button>
-                    </form>
-                </li>
-                <li class="bg-blue-600 p-2 rounded-lg"><a href="/signin">Sign In</a></li>
-                <li class="bg-green-600 p-2 rounded-lg"><a href="/signup">Sign Up</a></li>
+                {{if currentUser}}
+                    <li class="p-2 rounded-lg">
+                        <form action="/signout" method="post" class="inline pr-4">
+                            <div class="hidden">
+                                {{csrfField}}
+                            </div>
+                            <button type="submit">Sign out</button>
+                        </form>
+                    </li>
+                {{else}}
+                    <li class="bg-blue-600 p-2 rounded-lg"><a href="/signin">Sign In</a></li>
+                    <li class="bg-green-600 p-2 rounded-lg"><a href="/signup">Sign Up</a></li>
+                {{end}}
             </ul>
         </div>
     </nav>

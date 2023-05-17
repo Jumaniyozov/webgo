@@ -2,39 +2,44 @@
     <div class="flex justify-center w-full py-8">
         <div class="flex flex-col gap-8 border-gray-300 border shadow-sm rounded-lg p-12 bg-white w-4/12">
             <div class="flex items-center">
-                <h1 class="text-2xl font-medium">Welcome Back</h1>
+                <h1 class="text-2xl font-medium">Reset your password</h1>
             </div>
-            <form action="/signin" method="post" class="flex flex-col gap-4 text-gray-900">
+            <form action="/reset-pw" method="post" class="flex flex-col gap-4 text-gray-900">
                 <div class="hidden">
                     {{csrfField}}
                 </div>
                 <div class="flex flex-col gap-2">
-                    <label class="text-base font-medium" for="email">Email Address</label>
-                    <input class="text-gray-900 rounded-lg border border-gray-300" name="email" id="email" type="email"
-                           placeholder="Email address"
-                           required autocomplete="email"
-                           value="{{.Email}}"
-                           {{if not .Email }}autofocus{{end}}
-                    />
-                </div>
-                <div class="flex flex-col gap-2">
-                    <label class="text-base font-medium" for="password">Password</label>
+                    <label class="text-base font-medium" for="password">New password</label>
                     <input class="text-gray-900 rounded-lg border border-gray-300" name="password" id="password"
                            type="password"
                            placeholder="Password"
                            required
-                           {{if .Email }}autofocus{{end}}
+                           autofocus
                     />
                 </div>
+                {{if .Token}}
+                    <div class="hidden">
+                        <input type="hidden" id="token" name="token" value="{{.Token}}">
+                    </div>
+                {{else}}
+                    <div class="flex flex-col gap-2">
+                        <label class="text-base font-medium" for="token">Password reset token</label>
+                        <input class="text-gray-900 rounded-lg border border-gray-300" name="token" id="token"
+                               type="text"
+                               placeholder="Check your email"
+                               required
+                        />
+                    </div>
+                {{end}}
                 <div class="flex justify-center mt-4">
                     <button type="submit" class="bg-indigo-600 rounded-lg p-2 text-white w-full hover:bg-indigo-800">
-                        Sign In
+                        Update password
                     </button>
                 </div>
                 <div class="flex justify-between">
                     <p class="text-sm">Don't have an account?<span><a
                                     href="/signup" class="underline">Sign Up</a></span></p>
-                    <p class="text-sm"><a class="underline" href="/forgot-pw">Forgot your password?</a></p>
+                    <p class="text-sm"><a class="underline" href="/signin">Sign In</a></p>
                 </div>
             </form>
 
